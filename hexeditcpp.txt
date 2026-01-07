@@ -1,0 +1,21 @@
+.
+├── backup
+│   ├── hex_editor_version-1
+│   └── hex_editor_version_2
+├── documentation
+│   ├── bytecraft.odt
+│   └── charter
+├── hexeditcpp.txt
+├── include
+│   ├── HexBuffer.hpp
+│   ├── HexViewWidget.hpp
+│   └── MainWindow.hpp
+├── Makefile
+├── msic
+│   └── bytecraft.pro
+└── src
+    ├── main.cpp
+    ├── main_original_code.cpp
+    └── MainWindow.cpp
+
+5 directories, 13 files
