@@ -18,7 +18,6 @@ Unlike a standard text editor, this application is built as a binary analysis to
 * **Professional Edit/View Toggle**: A global state toggle that switches the application between a safe "Read-Only" navigation mode and an interactive "Edit" mode.
 
 ### **1.2 Current Limitations**
-@floreseo
 * **Direct Hex Modification**: While the editor state can be toggled to "Edit," the underlying binary buffer modification via keystrokes is currently in the late-integration phase.
 * **Advanced Analysis**: Menu items for CRC32, SHA-256, and Entropy are present in the professional menu structure but currently exist as logical placeholders.
 
