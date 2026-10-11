@@ -35,6 +35,16 @@ int main(int argc, char* argv[]) {
     int app_argc = 1;
     auto app = Gtk::Application::create(app_argc, argv, "com.eric.efhex");
 
+    // Window and taskbar icon: the installed "efhex" theme icon, or the file
+    // next to the source tree when running uninstalled from the build folder.
+    Gtk::Window::set_default_icon_name("efhex");
+    for (const char* p : {"resources/efhex.png", "../resources/efhex.png"}) {
+        if (g_file_test(p, G_FILE_TEST_EXISTS)) {
+            try { Gtk::Window::set_default_icon_from_file(p); } catch (...) {}
+            break;
+        }
+    }
+
     MainWindow win;
     if (!initial_file.empty()) {
         // Open once the main loop is running so any error dialog can show.

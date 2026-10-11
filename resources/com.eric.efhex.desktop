@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=efhex
+GenericName=Hex Editor
+Comment=Easy and Flexible Hex editor
+Exec=efhex %f
+Icon=efhex
+Terminal=false
+Categories=Utility;Development;
+Keywords=hex;binary;editor;bytes;
+StartupNotify=true
+StartupWMClass=efhex

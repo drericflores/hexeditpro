@@ -31,6 +31,22 @@ $(GUI_OBJ): CXXFLAGS += $(GTK_CFLAGS)
 clean:
 	rm -f src/*.o src/*.d tests/*.o tests/*.d $(TARGET) $(TEST)
 
-.PHONY: all check clean
+.PHONY: all check clean install uninstall
+
+PREFIX ?= /usr/local
+
+install: $(TARGET)
+	install -Dm755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
+	install -Dm644 resources/com.eric.efhex.desktop $(DESTDIR)$(PREFIX)/share/applications/com.eric.efhex.desktop
+	@if [ -f resources/efhex.png ]; then \
+	  install -Dm644 resources/efhex.png $(DESTDIR)$(PREFIX)/share/icons/hicolor/256x256/apps/efhex.png; \
+	else echo "warning: resources/efhex.png not found, installing without an icon"; fi
+	-gtk-update-icon-cache -q -t $(DESTDIR)$(PREFIX)/share/icons/hicolor
+	-update-desktop-database -q $(DESTDIR)$(PREFIX)/share/applications
+
+uninstall:
+	rm -f $(DESTDIR)$(PREFIX)/bin/$(TARGET) \
+	  $(DESTDIR)$(PREFIX)/share/applications/com.eric.efhex.desktop \
+	  $(DESTDIR)$(PREFIX)/share/icons/hicolor/256x256/apps/efhex.png
 
 -include $(wildcard src/*.d tests/*.d)

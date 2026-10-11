@@ -33,6 +33,16 @@ if(EFHEX_BUILD_GUI)
   target_compile_options(efhex PRIVATE -Wall -Wextra)
 
   install(TARGETS efhex RUNTIME DESTINATION bin)
+
+  # Launcher entry and icon so efhex shows up in the GNOME menu.
+  install(FILES resources/com.eric.efhex.desktop
+          DESTINATION share/applications)
+  if(EXISTS "${CMAKE_SOURCE_DIR}/resources/efhex.png")
+    install(FILES resources/efhex.png
+            DESTINATION share/icons/hicolor/256x256/apps)
+  else()
+    message(WARNING "resources/efhex.png not found: efhex will install without an icon")
+  endif()
 endif()
 
 if(EFHEX_BUILD_TESTS)
