@@ -83,7 +83,7 @@ bool HexBuffer::save(const std::string& path, std::string* error) {
     fs::path dir = target.parent_path();
     if (dir.empty()) dir = ".";
 
-    std::string tmpl = (dir / ".hexpro-XXXXXX").string();
+    std::string tmpl = (dir / ".efhex-XXXXXX").string();
     std::vector<char> tmp_name(tmpl.begin(), tmpl.end());
     tmp_name.push_back('\0');
 

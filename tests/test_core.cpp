@@ -358,7 +358,7 @@ static void test_printable() {
 }
 
 int main() {
-    char tmpl[] = "/tmp/hexpro-test-XXXXXX";
+    char tmpl[] = "/tmp/efhex-test-XXXXXX";
     if (!::mkdtemp(tmpl)) {
         std::perror("mkdtemp");
         return 2;

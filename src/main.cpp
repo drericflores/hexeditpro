@@ -12,13 +12,13 @@ int main(int argc, char* argv[]) {
     bool read_only = false;
     for (int i = 1; i < argc; ++i) {
         if (std::strcmp(argv[i], "--version") == 0) {
-            std::printf("HexEdit Pro %s\n", HEXPRO_VERSION);
+            std::printf("efhex %s\n", EFHEX_VERSION);
             return 0;
         }
         if (std::strcmp(argv[i], "--help") == 0 || std::strcmp(argv[i], "-h") == 0) {
             std::printf(
                 "Usage: %s [--read-only] [FILE]\n\n"
-                "Opens FILE in the hex editor (or starts empty).\n"
+                "Opens FILE in efhex (or starts empty).\n"
                 "  -r, --read-only   open the file with editing turned off\n"
                 "      --version     print the version and exit\n",
                 argv[0]);
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
     // GTK only needs the program name; the file argument is handled below.
     int app_argc = 1;
-    auto app = Gtk::Application::create(app_argc, argv, "com.eric.hexpro");
+    auto app = Gtk::Application::create(app_argc, argv, "com.eric.efhex");
 
     MainWindow win;
     if (!initial_file.empty()) {

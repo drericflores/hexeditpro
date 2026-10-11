@@ -1,4 +1,6 @@
-# **Pop!Hex Editor Pro (v1.2.0)**
+# **efhex (v1.2.0)**
+
+*efhex = Easy and Flexible Hex editor*
 
 ### **<span style="color:red">The Application Works - Still needs Some Minor Details</span>**
 
@@ -6,7 +8,7 @@
 
 ## **1. Project Overview**
 
-**Pop!Hex Editor Pro** is a high-performance, modular hex editor designed for the **Pop!_OS** environment, with forward compatibility for the **COSMIC** desktop. It utilizes a professional three-pane architecture—**Address**, **Hex**, and **ASCII**—to provide an "elastic" and intuitive data manipulation interface.
+**efhex** (Easy and Flexible Hex editor) is a high-performance, modular hex editor designed for the **Pop!_OS** environment, with forward compatibility for the **COSMIC** desktop. It utilizes a professional three-pane architecture—**Address**, **Hex**, and **ASCII**—to provide an "elastic" and intuitive data manipulation interface.
 
 Unlike a standard text editor, this application is built as a binary analysis tool, treating files as raw byte streams rather than encoded strings.
 
@@ -87,14 +89,14 @@ Build and run with CMake:
 ```bash
 cmake -S . -B build
 cmake --build build
-./build/hex_pro [--read-only] [FILE]
+./build/efhex [--read-only] [FILE]
 cd build && ctest        # run the unit tests
 ```
 
 Or with the Makefile:
 
 ```bash
-make            # builds ./hex_pro
+make            # builds ./efhex
 make check      # builds and runs the unit tests
 ```
 

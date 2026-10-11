@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(hexeditpro VERSION 1.2.0 LANGUAGES CXX)
+project(efhex VERSION 1.2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -10,8 +10,8 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
-option(HEXPRO_BUILD_GUI "Build the GTK application (needs gtkmm-3.0)" ON)
-option(HEXPRO_BUILD_TESTS "Build the unit tests" ON)
+option(EFHEX_BUILD_GUI "Build the GTK application (needs gtkmm-3.0)" ON)
+option(EFHEX_BUILD_TESTS "Build the unit tests" ON)
 
 add_library(hexcore STATIC
   src/HexBuffer.cpp
@@ -19,23 +19,23 @@ add_library(hexcore STATIC
 target_include_directories(hexcore PUBLIC include)
 target_compile_options(hexcore PRIVATE -Wall -Wextra -Wpedantic)
 
-if(HEXPRO_BUILD_GUI)
+if(EFHEX_BUILD_GUI)
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
 
-  add_executable(hex_pro
+  add_executable(efhex
     src/main.cpp
     src/MainWindow.cpp
     src/HexView.cpp
     src/menu.cpp)
-  target_link_libraries(hex_pro PRIVATE hexcore PkgConfig::GTKMM)
-  target_compile_definitions(hex_pro PRIVATE HEXPRO_VERSION="${PROJECT_VERSION}")
-  target_compile_options(hex_pro PRIVATE -Wall -Wextra)
+  target_link_libraries(efhex PRIVATE hexcore PkgConfig::GTKMM)
+  target_compile_definitions(efhex PRIVATE EFHEX_VERSION="${PROJECT_VERSION}")
+  target_compile_options(efhex PRIVATE -Wall -Wextra)
 
-  install(TARGETS hex_pro RUNTIME DESTINATION bin)
+  install(TARGETS efhex RUNTIME DESTINATION bin)
 endif()
 
-if(HEXPRO_BUILD_TESTS)
+if(EFHEX_BUILD_TESTS)
   enable_testing()
   add_executable(test_core tests/test_core.cpp)
   target_link_libraries(test_core PRIVATE hexcore)

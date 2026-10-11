@@ -33,7 +33,7 @@ MainWindow::MainWindow() {
 
     m_accel = Gtk::AccelGroup::create();
     add_accel_group(m_accel);
-    m_status_context = m_statusbar.get_context_id("hexpro");
+    m_status_context = m_statusbar.get_context_id("efhex");
 
     m_view.set_buffer(&m_buffer);
     m_view.signal_edited().connect([this] {
@@ -216,7 +216,7 @@ void MainWindow::status(const std::string& message) {
 
 void MainWindow::update_title() {
     const std::string name = m_buffer.path().empty() ? "Untitled" : Glib::path_get_basename(m_buffer.path());
-    set_title(std::string(m_buffer.dirty() ? "*" : "") + name + " - HexEdit Pro");
+    set_title(std::string(m_buffer.dirty() ? "*" : "") + name + " - efhex");
 }
 
 void MainWindow::update_info() {
@@ -640,8 +640,8 @@ void MainWindow::action_shortcuts() {
 void MainWindow::action_about() {
     Gtk::AboutDialog dlg;
     dlg.set_transient_for(*this);
-    dlg.set_program_name("HexEdit Pro");
-    dlg.set_version(HEXPRO_VERSION);
+    dlg.set_program_name("efhex");
+    dlg.set_version(EFHEX_VERSION);
     dlg.set_comments("Hex viewer and editor for Pop!_OS, built with gtkmm.");
     dlg.set_copyright("Copyright 2024-2026 Dr. Eric O. Flores");
     dlg.set_license_type(Gtk::LICENSE_MIT_X11);

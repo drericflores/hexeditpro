@@ -9,7 +9,7 @@ GTK_LIBS   := $(shell pkg-config --libs gtkmm-3.0)
 # The data engine has no GTK dependency, so it is built (and tested) on its own.
 CORE_OBJ = src/HexBuffer.o src/HexUtil.o
 GUI_OBJ  = src/main.o src/MainWindow.o src/HexView.o src/menu.o
-TARGET   = hex_pro
+TARGET   = efhex
 TEST     = test_core
 
 all: $(TARGET)
