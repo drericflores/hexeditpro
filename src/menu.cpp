@@ -1,64 +1,84 @@
 #include "menu.h"
-#include <iostream>
 
-// Helper for features not yet linked to UI logic
-static void notImplemented(const std::string& name) {
-    std::cout << "[TODO] " << name << " is not yet implemented.\n";
+namespace {
+
+using Kind = MenuItem::Kind;
+
+MenuItem item(const char* label, const char* action, const char* accel = "") {
+    return {Kind::Normal, label, action, accel, ""};
 }
+MenuItem check(const char* label, const char* action, const char* accel = "") {
+    return {Kind::Check, label, action, accel, ""};
+}
+MenuItem radio(const char* label, const char* action, const char* group) {
+    return {Kind::Radio, label, action, "", group};
+}
+MenuItem sep() {
+    return {Kind::Separator, "", "", "", ""};
+}
+
+}  // namespace
 
 std::vector<Menu> buildHexEditorMenus() {
     return {
-        { "File", {
-            { "New", []{ /* Handled by MainWindow override */ } },
-            { "Open...", []{ /* Handled by MainWindow override */ } },
-            { "Open Read-Only", []{ notImplemented("Open Read-Only"); } },
-            { "Save", []{ /* Handled by MainWindow override */ } },
-            { "Save As...", []{ /* Handled by MainWindow override */ } },
-            { "Export Selection...", []{ notImplemented("Export Selection"); } },
-            { "", nullptr, true },
-            { "Close", []{ notImplemented("Close"); } },
-            { "Quit", []{ /* Handled by MainWindow override */ } },
+        {"_File", {
+            item("_New", "file_new", "<Control>N"),
+            item("_Open...", "file_open", "<Control>O"),
+            item("Open Read-_Only...", "file_open_readonly"),
+            item("_Save", "file_save", "<Control>S"),
+            item("Save _As...", "file_save_as", "<Control><Shift>S"),
+            item("_Export Selection...", "file_export"),
+            sep(),
+            item("_Quit", "file_quit", "<Control>Q"),
         }},
 
-        { "Edit", {
-            { "Undo", []{ notImplemented("Undo"); } },
-            { "Redo", []{ notImplemented("Redo"); } },
-            { "", nullptr, true },
-            { "Cut Bytes", []{ notImplemented("Cut Bytes"); } },
-            { "Copy Bytes", []{ notImplemented("Copy Bytes"); } },
-            { "Paste Insert", []{ notImplemented("Paste Insert"); } },
-            { "Paste Overwrite", []{ notImplemented("Paste Overwrite"); } },
-            { "", nullptr, true },
-            { "Fill Selection...", []{ notImplemented("Fill Selection"); } },
-            { "Zero Selection", []{ notImplemented("Zero Selection"); } },
+        {"_Edit", {
+            item("_Undo", "edit_undo", "<Control>Z"),
+            item("_Redo", "edit_redo", "<Control>Y|<Control><Shift>Z"),
+            sep(),
+            item("Cu_t Bytes", "edit_cut", "<Control>X"),
+            item("_Copy Bytes", "edit_copy", "<Control>C"),
+            item("_Paste Insert", "edit_paste_insert", "<Control>V"),
+            item("Paste _Overwrite", "edit_paste_overwrite", "<Control><Shift>V"),
+            sep(),
+            item("_Fill Selection...", "edit_fill"),
+            item("_Zero Selection", "edit_zero"),
+            item("Select _All", "edit_select_all", "<Control>A"),
+            sep(),
+            check("Edit _Mode", "edit_mode", "<Control>E"),
+            check("_Insert Mode (Ins)", "insert_mode"),
         }},
 
-        { "View", {
-            { "Hex + ASCII", []{ notImplemented("Hex + ASCII"); } },
-            { "Hex Only", []{ notImplemented("Hex Only"); } },
-            { "ASCII Only", []{ notImplemented("ASCII Only"); } },
-            { "", nullptr, true },
-            { "Little Endian", []{ notImplemented("Little Endian"); } },
-            { "Big Endian", []{ notImplemented("Big Endian"); } },
+        {"_View", {
+            radio("Hex + _ASCII", "view_hex_ascii", "layout"),
+            radio("_Hex Only", "view_hex_only", "layout"),
+            radio("ASC_II Only", "view_ascii_only", "layout"),
+            sep(),
+            check("_Dark Mode", "view_dark"),
         }},
 
-        { "Search", {
-            { "Find Bytes...", []{ notImplemented("Find Bytes"); } },
-            { "Find ASCII...", []{ notImplemented("Find ASCII"); } },
-            { "Find Hex Pattern...", []{ notImplemented("Find Hex Pattern"); } },
-            { "Go To Offset...", []{ notImplemented("Go To Offset"); } },
+        {"_Search", {
+            item("_Find Bytes...", "find_bytes", "<Control>F"),
+            item("Find _ASCII...", "find_ascii"),
+            item("Find _Hex Pattern...", "find_hex"),
+            sep(),
+            item("Find _Next", "find_next", "F3"),
+            item("Find _Previous", "find_prev", "<Shift>F3"),
+            sep(),
+            item("_Go To Offset...", "goto_offset", "<Control>G"),
         }},
 
-        { "Analysis", {
-            { "Byte Frequency", []{ notImplemented("Byte Frequency"); } },
-            { "Entropy", []{ notImplemented("Entropy"); } },
-            { "CRC32", []{ notImplemented("CRC32"); } },
-            { "SHA-256", []{ notImplemented("SHA-256"); } },
+        // Not implemented yet: these have no handler, so they appear greyed out.
+        {"_Analysis", {
+            item("Byte _Frequency", "analysis_frequency"),
+            item("_Entropy", "analysis_entropy"),
+            item("_CRC32", "analysis_crc32"),
+            item("_SHA-256", "analysis_sha256"),
         }},
 
-        { "Help", {
-            { "Keyboard Shortcuts", []{ notImplemented("Shortcuts"); } },
-            { "About", []{ /* Handled by MainWindow override */ } },
+        {"_Help", {
+            item("_Keyboard Shortcuts", "help_shortcuts", "F1"),
+            item("_About", "help_about"),
         }},
     };
 }
