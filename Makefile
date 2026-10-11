@@ -1,20 +1,36 @@
-# Compiler and Flags
-CXX = g++
-CXXFLAGS = -std=c++17 `pkg-config --cflags gtkmm-3.0` -I./include
-LIBS = `pkg-config --libs gtkmm-3.0`
+# Plain Makefile build. CMake (see CMakeLists.txt) works too.
+CXX      ?= g++
+CXXFLAGS ?= -O2
+CXXFLAGS += -std=c++17 -Wall -Wextra -MMD -MP -I./include
 
-# Project Files
-# Note: This list ensures we only link the intended files, avoiding "multiple definition" errors
-OBJ = src/main.o src/HexBuffer.o src/HexViewWidget.o src/MainWindow.o
-TARGET = hex_pro
+GTK_CFLAGS := $(shell pkg-config --cflags gtkmm-3.0)
+GTK_LIBS   := $(shell pkg-config --libs gtkmm-3.0)
 
-# Build Rules
-$(TARGET): $(OBJ)
-	$(CXX) -o $(TARGET) $(OBJ) $(LIBS)
+# The data engine has no GTK dependency, so it is built (and tested) on its own.
+CORE_OBJ = src/HexBuffer.o src/HexUtil.o
+GUI_OBJ  = src/main.o src/MainWindow.o src/HexView.o src/menu.o
+TARGET   = hex_pro
+TEST     = test_core
+
+all: $(TARGET)
+
+$(TARGET): $(GUI_OBJ) $(CORE_OBJ)
+	$(CXX) -o $@ $^ $(GTK_LIBS)
+
+$(TEST): tests/test_core.o $(CORE_OBJ)
+	$(CXX) -o $@ $^
+
+check: $(TEST)
+	./$(TEST)
+
+$(GUI_OBJ): CXXFLAGS += $(GTK_CFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Utility Rules
 clean:
-	rm -f src/*.o $(TARGET)
+	rm -f src/*.o src/*.d tests/*.o tests/*.d $(TARGET) $(TEST)
+
+.PHONY: all check clean
+
+-include $(wildcard src/*.d tests/*.d)
