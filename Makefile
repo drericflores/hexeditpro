@@ -37,7 +37,8 @@ PREFIX ?= /usr/local
 
 install: $(TARGET)
 	install -Dm755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
-	install -Dm644 resources/com.eric.efhex.desktop $(DESTDIR)$(PREFIX)/share/applications/com.eric.efhex.desktop
+	install -d $(DESTDIR)$(PREFIX)/share/applications
+	sed -e 's|@EFHEX_EXEC@|$(PREFIX)/bin/$(TARGET)|' -e 's|@EFHEX_ICON@|$(PREFIX)/share/icons/hicolor/256x256/apps/efhex.png|' resources/com.eric.efhex.desktop.in > $(DESTDIR)$(PREFIX)/share/applications/com.eric.efhex.desktop
 	@if [ -f resources/efhex.png ]; then \
 	  install -Dm644 resources/efhex.png $(DESTDIR)$(PREFIX)/share/icons/hicolor/256x256/apps/efhex.png; \
 	else echo "warning: resources/efhex.png not found, installing without an icon"; fi

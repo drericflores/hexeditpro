@@ -34,15 +34,28 @@ if(EFHEX_BUILD_GUI)
 
   install(TARGETS efhex RUNTIME DESTINATION bin)
 
-  # Launcher entry and icon so efhex shows up in the GNOME menu.
-  install(FILES resources/com.eric.efhex.desktop
-          DESTINATION share/applications)
-  if(EXISTS "${CMAKE_SOURCE_DIR}/resources/efhex.png")
+  # Launcher entry and icon so efhex shows up in the GNOME / Pop!_OS menu.
+  # The .desktop file is written at install time with absolute Exec and Icon
+  # paths, so the menu finds the icon without relying on an icon-theme cache
+  # (and it works for any --prefix, including ~/.local).
+  set(EFHEX_ICON_FILE "${CMAKE_SOURCE_DIR}/resources/efhex.png")
+  if(EXISTS "${EFHEX_ICON_FILE}")
     install(FILES resources/efhex.png
             DESTINATION share/icons/hicolor/256x256/apps)
   else()
     message(WARNING "resources/efhex.png not found: efhex will install without an icon")
   endif()
+  install(CODE "
+    set(_root \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}\")
+    set(EFHEX_EXEC \"\${CMAKE_INSTALL_PREFIX}/bin/efhex\")
+    set(EFHEX_ICON \"efhex\")
+    if(EXISTS \"${EFHEX_ICON_FILE}\")
+      set(EFHEX_ICON \"\${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/256x256/apps/efhex.png\")
+    endif()
+    configure_file(\"${CMAKE_SOURCE_DIR}/resources/com.eric.efhex.desktop.in\"
+                   \"\${_root}/share/applications/com.eric.efhex.desktop\" @ONLY)
+    message(STATUS \"Installing: \${_root}/share/applications/com.eric.efhex.desktop\")
+  ")
 endif()
 
 if(EFHEX_BUILD_TESTS)
